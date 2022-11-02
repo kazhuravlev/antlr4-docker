@@ -1,0 +1,21 @@
+version: '3'
+
+vars:
+  ANTLR_VERSION: 4.11.1
+  IMAGE_NAME: kazhuravlev/antlr4
+
+tasks:
+  build:
+    cmds:
+      - |
+        docker buildx build \
+          --platform linux/amd64 \
+          --build-arg VERSION={{ .ANTLR_VERSION }} \
+          -t {{ .IMAGE_NAME }}:{{ .ANTLR_VERSION }} \
+          -t {{ .IMAGE_NAME }}:latest \
+          .
+
+  push:
+    cmds:
+      - docker push {{ .IMAGE_NAME }}:{{ .ANTLR_VERSION }}
+      - docker push {{ .IMAGE_NAME }}:latest
